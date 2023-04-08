@@ -1,20 +1,18 @@
-package peter.postcodeapi.suburb;
+package peter.postcodeapi.dtos;
 
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 public class UpdateSuburbDto {
 	@Size(min = 1, max = 50)
 	private String name;
 
-	@Pattern(regexp="[0-9]+")
 	@Max(99999)
-	@Size(min = 1, max = 5)
 	private int population;
 	
-	@Pattern(regexp="[0-9]+")
-	@Size(min = 4)
+	@Min(1000)
+	@Max(9999)
 	private int postcode;
 
 	public String getName() {

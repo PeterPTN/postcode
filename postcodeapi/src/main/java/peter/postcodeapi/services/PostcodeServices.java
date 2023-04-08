@@ -1,11 +1,20 @@
-package peter.postcodeapi.postcode;
+package peter.postcodeapi.services;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+import peter.postcodeapi.dtos.CreatePostcodeDto;
+import peter.postcodeapi.dtos.UpdatePostcodeDto;
+import peter.postcodeapi.models.Postcode;
+import peter.postcodeapi.repositories.PostcodeRepository;
+
+@Service
+@Transactional
 public class PostcodeServices {
 	@Autowired
 	PostcodeRepository postcodeRepository;
@@ -35,7 +44,7 @@ public class PostcodeServices {
 	}
 	
 	public Optional<Postcode> findPostcodeByPostcodeNumber(int postcode) {
-		return this.postcodeRepository.findByPostcodeNumber(postcode);
+		return this.postcodeRepository.findByPostcode(postcode);
 	}
 	
 	public Postcode updatePostcode(Postcode postcode, UpdatePostcodeDto data) {

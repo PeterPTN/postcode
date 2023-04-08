@@ -1,12 +1,13 @@
-package peter.postcodeapi.suburb;
+package peter.postcodeapi.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity()
 public class Suburb {
@@ -18,13 +19,16 @@ public class Suburb {
 	@Column(name = "name")
 	private String name;
 	
-	@Size(min = 6)
+	@Max(99999)
 	@Column(name = "population")
 	private int population;
 	
-	@Size(min = 4)
+	@Min(1000)
+	@Max(9999)
 	@Column(name = "postcode")
 	private int postcode;
+	
+	public Suburb() {}
 	
 	public Suburb(int id, String name, int population, int postcode) {
 		super();
@@ -37,9 +41,11 @@ public class Suburb {
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getName() {
 		return name;
 	}
@@ -47,15 +53,19 @@ public class Suburb {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public int getPopulation() {
 		return population;
 	}
+	
 	public void setPopulation(int population) {
 		this.population = population;
 	}
+	
 	public int getPostcode() {
 		return postcode;
 	}
+	
 	public void setPostcode(int postcode) {
 		this.postcode = postcode;
 	}

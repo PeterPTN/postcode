@@ -9,5 +9,4 @@ public class PostcodeapiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PostcodeapiApplication.class, args);
 	}
-
 }

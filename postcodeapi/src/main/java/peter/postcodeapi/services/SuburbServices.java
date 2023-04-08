@@ -1,4 +1,4 @@
-package peter.postcodeapi.suburb;
+package peter.postcodeapi.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import peter.postcodeapi.postcode.Postcode;
+import peter.postcodeapi.dtos.CreateSuburbDto;
+import peter.postcodeapi.dtos.UpdateSuburbDto;
+import peter.postcodeapi.models.Suburb;
+import peter.postcodeapi.repositories.SuburbRepository;
 
 @Service
 @Transactional
@@ -28,9 +31,9 @@ public class SuburbServices {
 		return this.suburbRepository.findAll();
 	}
 
-	public List<Suburb> findAllSuburbsByPostcode(Postcode postcodeEntity) {
+	public List<Suburb> findAllSuburbsByPostcode(int postcode) {
 		// Find suburb using custom method based on post code entity
-		return this.suburbRepository.findByPostCode(postcodeEntity);
+		return this.suburbRepository.findByPostcode(postcode);
 	}
 
 	public Optional<Suburb> findSuburbById(Long id) {

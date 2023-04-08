@@ -1,15 +1,21 @@
-package peter.postcodeapi.suburb;
+package peter.postcodeapi.dtos;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateSuburbDto {
 	@NotBlank
 	private String name;
 	
-	@NotBlank
+	@NotNull
+	@Max(99999)
 	private int population;
 	
-	@NotBlank
+	@Min(1000)
+	@Max(9999)
+	@NotNull
 	private int postcode;
 
 	public String getName() {

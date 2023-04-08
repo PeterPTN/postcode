@@ -1,9 +1,13 @@
-package peter.postcodeapi.postcode;
+package peter.postcodeapi.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import peter.postcodeapi.exceptions.NotFoundException;
+import peter.postcodeapi.models.Postcode;
+import peter.postcodeapi.services.PostcodeServices;
 
+@Component
 public class PostcodeUtils {
 	@Autowired
 	private PostcodeServices postcodeServices;

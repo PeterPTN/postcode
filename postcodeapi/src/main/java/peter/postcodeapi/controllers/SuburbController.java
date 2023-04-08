@@ -1,4 +1,4 @@
-package peter.postcodeapi.suburb;
+package peter.postcodeapi.controllers;
 
 import java.util.List;
 
@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import peter.postcodeapi.dtos.CreateSuburbDto;
+import peter.postcodeapi.dtos.UpdateSuburbDto;
 import peter.postcodeapi.exceptions.NotFoundException;
-import peter.postcodeapi.postcode.Postcode;
-import peter.postcodeapi.postcode.PostcodeServices;
-import peter.postcodeapi.postcode.PostcodeUtils;
+import peter.postcodeapi.models.Postcode;
+import peter.postcodeapi.models.Suburb;
+import peter.postcodeapi.services.PostcodeServices;
+import peter.postcodeapi.services.SuburbServices;
+import peter.postcodeapi.utils.PostcodeUtils;
 
 @RestController
 @RequestMapping("/suburb")
@@ -50,7 +54,7 @@ public class SuburbController {
 	@GetMapping("/find-suburb-by-{postcode}")
 	public ResponseEntity<List<Suburb>> findSuburbByPostcode(@PathVariable int postcode) {
 		Postcode foundPostcode = postcodeUtils.findPostCodeByPostCodeOrElseThrow(postcode);
-		List<Suburb> suburb = this.suburbServices.findAllSuburbsByPostcode(foundPostcode);
+		List<Suburb> suburb = this.suburbServices.findAllSuburbsByPostcode(foundPostcode.getPostcode());
 		return new ResponseEntity<List<Suburb>>(suburb, HttpStatus.OK);
 	}
 
@@ -60,7 +64,7 @@ public class SuburbController {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<Suburb> updateSuburb(@PathVariable Long id, @Valid @RequestBody UpdateSuburbDto data) {
+	public ResponseEntity<Suburb> updateSuburbById(@PathVariable Long id, @Valid @RequestBody UpdateSuburbDto data) {
 		if (postcodeUtils.findOutDoesPostcodeExist(data.getPostcode()) == false) {
 			throw new NotFoundException(data.getPostcode() + ": is an invalid postcode");
 		}

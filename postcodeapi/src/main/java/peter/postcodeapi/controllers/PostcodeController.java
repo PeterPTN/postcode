@@ -1,7 +1,6 @@
-package peter.postcodeapi.postcode;
+package peter.postcodeapi.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import peter.postcodeapi.dtos.CreatePostcodeDto;
+import peter.postcodeapi.dtos.UpdatePostcodeDto;
 import peter.postcodeapi.exceptions.NotFoundException;
-import peter.postcodeapi.suburb.Suburb;
-import peter.postcodeapi.suburb.SuburbServices;
+import peter.postcodeapi.models.Postcode;
+import peter.postcodeapi.models.Suburb;
+import peter.postcodeapi.services.PostcodeServices;
+import peter.postcodeapi.services.SuburbServices;
+import peter.postcodeapi.utils.PostcodeUtils;
 
 @RestController
 @RequestMapping("/postcode")
@@ -44,12 +48,11 @@ public class PostcodeController {
 	}
 
 	@GetMapping("/find-postcode-by-{suburb}")
-	public ResponseEntity<Postcode> findPostcodeBySuburbName(@PathVariable String name) {
-		Optional<Suburb> foundSuburb = suburbServices.findSuburbByName(name);
-		if (foundSuburb.isEmpty()) {
-			throw new NotFoundException("Could not find a suburb of name: " + name);
-		}
-		return new ResponseEntity<Postcode>(HttpStatus.OK);
+	public ResponseEntity<Integer> findPostcodeBySuburbName(@PathVariable String suburb) {
+		Suburb foundSuburb = suburbServices.findSuburbByName(suburb).orElseThrow(() -> {
+			throw new NotFoundException("Could not find a suburb of name: " + suburb);
+		});
+		return new ResponseEntity<Integer>(foundSuburb.getPostcode(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
@@ -57,9 +60,18 @@ public class PostcodeController {
 		return new ResponseEntity<Postcode>(postcodeUtils.findPostCodeByIdOrElseThrow(id), HttpStatus.OK);
 	}
 
-	@PatchMapping("/{id")
-	public ResponseEntity<Postcode> updatePostcode(@PathVariable Long id, @Valid @RequestBody UpdatePostcodeDto data) {
+	@PatchMapping("/{id}")
+	public ResponseEntity<Postcode> updatePostcodeById(@PathVariable Long id, @Valid @RequestBody UpdatePostcodeDto data) {
 		Postcode postcode = postcodeUtils.findPostCodeByIdOrElseThrow(id);
+		Postcode updatedPostcode = this.postcodeServices.updatePostcode(postcode, data);
+		return new ResponseEntity<Postcode>(updatedPostcode, HttpStatus.OK);
+	}
+	
+	@PatchMapping("/current-code-{currentPostcode}")
+	public ResponseEntity<Postcode> updatePostcodeByPostcode(@PathVariable int currentPostcode, @Valid @RequestBody UpdatePostcodeDto data) {
+		Postcode postcode = this.postcodeServices.findPostcodeByPostcodeNumber(currentPostcode).orElseThrow(() -> {
+			throw new NotFoundException("Could not find a postcode of code: " + currentPostcode);
+		});
 		Postcode updatedPostcode = this.postcodeServices.updatePostcode(postcode, data);
 		return new ResponseEntity<Postcode>(updatedPostcode, HttpStatus.OK);
 	}

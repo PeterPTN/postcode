@@ -1,11 +1,11 @@
-package peter.postcodeapi.postcode;
+package peter.postcodeapi.dtos;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 public class UpdatePostcodeDto {
-	@Pattern(regexp="[0-9]+")
-	@Size(min=4)
+	@Min(1000)
+	@Max(9999)
 	private int postcode;
 
 	public int getPostcode() {

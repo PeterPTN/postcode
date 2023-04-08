@@ -1,11 +1,12 @@
-package peter.postcodeapi.postcode;
+package peter.postcodeapi.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @Entity()
 public class Postcode {
@@ -14,7 +15,8 @@ public class Postcode {
 	@Column(name = "postcode_id")
 	private Long id;
 	
-	@Size(min = 4)
+	@Min(1000)
+	@Max(9999)
 	@Column(name = "postcode_number")
 	private int postcode;
 	
