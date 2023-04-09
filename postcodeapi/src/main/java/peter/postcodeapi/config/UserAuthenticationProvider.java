@@ -26,8 +26,7 @@ import peter.postcodeapi.services.UserService;
 public class UserAuthenticationProvider {
 	@Value("${security.jwt.token.secret-key:secret-value}")
 	private String secretKey;
-
-	private UserService userService;
+	private final UserService userService;
 
 	@PostConstruct
 	protected void init() {
@@ -43,7 +42,9 @@ public class UserAuthenticationProvider {
 	}
 
 	public Authentication validateToken(String token) {
-		JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secretKey)).build();
+		Algorithm algorithm = Algorithm.HMAC256(secretKey);
+
+		JWTVerifier verifier = JWT.require(algorithm).build();
 
 		DecodedJWT decoded = verifier.verify(token);
 

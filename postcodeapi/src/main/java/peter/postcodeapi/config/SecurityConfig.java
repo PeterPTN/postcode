@@ -31,7 +31,7 @@ public class SecurityConfig {
 		http.exceptionHandling().authenticationEntryPoint(userAuthenticationEntryPoint).and()
 				.addFilterBefore(new JwtAuthFilter(userAuthenticationProvider), BasicAuthenticationFilter.class).csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeHttpRequests((requests) -> requests.requestMatchers(HttpMethod.POST, "login", "/register")
+				.authorizeHttpRequests((requests) -> requests.requestMatchers(HttpMethod.POST, "/login", "/register")
 						.permitAll().anyRequest().authenticated());
 		return http.build();
 

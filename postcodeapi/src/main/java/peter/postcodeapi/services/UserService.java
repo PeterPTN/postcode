@@ -34,7 +34,7 @@ public class UserService {
 	public UserDto login(CredentialsDto credentialsDto) {
 		User user = userRepository.findByLogin(credentialsDto.getLogin()).orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 		
-		// Hashes password as unreadable
+		// Hashes password as unreadable and verifies it
 		if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword())) {
 			return userMapper.toUserDto(user);
 		}
@@ -54,7 +54,6 @@ public class UserService {
 		
 		// Hash passwords before storing them
 		user.setPassword(passwordEncoder.encode(CharBuffer.wrap(userDto.getPassword())));
-		User savedUser = userRepository.save(user);
-		return userMapper.toUserDto(user);
+		return userMapper.toUserDto(userRepository.save(user));
 	}
 }

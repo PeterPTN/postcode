@@ -33,6 +33,7 @@ public class AuthenticationController {
 	public ResponseEntity<UserDto> register(@RequestBody SignUpDto signUpDto) {
 		UserDto user = userService.register(signUpDto);
 		user.setToken(userAuthenticationProvider.createToken(user.getLogin()));
-		return ResponseEntity.created(URI.create("/users" + user.getId())).body(user);
+		// Create URI of new user, return 201 and user as body
+		return ResponseEntity.created(URI.create("/users/" + user.getId())).body(user);
 	}
 }
