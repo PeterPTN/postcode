@@ -1,8 +1,14 @@
 import type Login from '../types/Login'
-import axios from 'axios';
+import FormType from '../types/Form';
 import Register from '../types/Register';
+import axios from 'axios';
 
-export const validateUser = async (data: Login | Register, formType: "register" | "login") => {
+interface LoginRegisterData {
+    data: Login | Register,
+    formType: string // Won't accept string-literal types ie. FormType
+}
+
+export const validateUser = async ({ data, formType }: LoginRegisterData) => {
     try {
         const response = await axios.post(`http://localhost:8080/${formType}`, data, {
             headers: {
@@ -10,8 +16,10 @@ export const validateUser = async (data: Login | Register, formType: "register" 
             }
         });
 
-        console.log(response.data)
+        // console.log(response.data)
 
+        // Store is session storage
+        // Or some otherway with an expiration date
         const token = await response.data.token;
         localStorage.setItem('token', token);
 

@@ -1,0 +1,20 @@
+@mixin textInput {
+    background-color: white;
+    border-radius: 25px;
+    padding: .3rem .65rem;
+    border: 1px solid white;
+    width: 15rem;
+}
+
+@mixin submitInput {
+    padding: .25rem .5rem;
+    text-transform: capitalize;
+    border: none;
+    border-radius: 25px;
+    align-self: center;
+}
+
+@mixin textInputFocus {
+    outline: none;
+    border: 1.5px solid red;
+}

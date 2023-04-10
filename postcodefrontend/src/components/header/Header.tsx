@@ -1,8 +1,10 @@
-import React from 'react'
+import styles from './Header.module.scss'
 
 const Header = () => {
   return (
-    <div>Header</div>
+    <header className={styles.header}>
+      <h1>Oz Post</h1>
+    </header>
   )
 }
 

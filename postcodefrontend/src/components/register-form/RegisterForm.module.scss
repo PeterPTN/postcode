@@ -1,0 +1,42 @@
+@import '../../global-styles/mixins/inputs.scss';
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: .25rem;
+    border: 1px solid black;
+    padding: 4rem;
+
+    input {
+        margin-bottom: .5rem;
+    }
+
+    input[type='submit'] {
+        @include submitInput;
+    }
+
+    input[type='text'],
+    input[type='password'] {
+        @include textInput;
+    }
+
+    input[type='text']:focus,
+    input[type='password']:focus {
+        @include textInputFocus;
+    }
+
+    label[for='lastName']::after,
+    label[for='firstName']::after,
+    label[for='login']::after,
+    label[for="email"]::after,
+    label[for="password"]::after,
+    label[for="confirmPassword"]::after {
+        content: " *";
+        color: rgba(255, 0, 0, 0.75);
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}

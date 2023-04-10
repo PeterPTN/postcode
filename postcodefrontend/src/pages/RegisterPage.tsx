@@ -1,10 +1,11 @@
-import Form from '../components/form/Form'
+import CenteringContainer from '../layouts/CenteringContainer'
+import RegisterForm from '../components/register-form/RegisterForm'
 
 const RegisterPage = () => {
   return (
-    <>
-      <Form formType='register' />
-    </>
+    <CenteringContainer>
+      <RegisterForm formType="register" />
+    </CenteringContainer>
   )
 }
 

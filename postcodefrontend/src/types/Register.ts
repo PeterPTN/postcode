@@ -3,4 +3,5 @@ export default interface Register {
     lastName: string
     login: string
     password: string
+    confirmPassword: string
 }
