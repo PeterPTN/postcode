@@ -23,5 +23,6 @@ This was originally a backend project but I've decided to include a frontend bec
 
 ## Future Goals
 - Testing suites for both frontend and backend
-- Play around with additional dependencies on the frontend
+- Complete remaining logic and componentry for the frontend
+- Play around with additional dependencies on the frontend (React-Motion & MockServiceWorker)
 - CSRF implementation(?)
