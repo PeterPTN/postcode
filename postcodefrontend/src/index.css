@@ -12,8 +12,12 @@
     text-decoration: none;
     scroll-behavior: smooth;
     list-style: none;
+    font-family: 'Prompt', sans-serif;
+    color: rgb(0,0,0, .775);
+}
 
-    
+h1 {
+    font-family: 'Patua One', cursive;
 }
 
 .text-center {
@@ -49,7 +53,7 @@ a {
 }
 
 body {
-    background-color: rgb(100, 100, 100);
+    background-color: rgb(230, 230, 230);
 }
 
 /* ---- Styles ---- */

@@ -1,0 +1,26 @@
+@import '../../../global-styles/mixins/Inputs.scss';
+@import '../../../global-styles//mixins//Forms.scss';
+
+.createSuburbForm {
+    @include form;
+
+    input {
+        margin-bottom: .5rem;
+    }
+
+    label {
+        padding: 0 .25rem;
+    }
+
+    input[type='text'] {
+        @include textInput;
+    }
+
+    input[type='text']:focus {
+        @include textInputFocus;
+    }
+
+    input[type='submit'] {
+        @include submitInput;
+    }
+}

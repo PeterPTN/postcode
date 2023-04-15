@@ -1,7 +1,12 @@
 .header {
     h1 {
-        text-transform: uppercase;
         margin: 1rem 1.5rem;
-        font-size: 2rem;
+        font-size: 7.5rem;
+        line-height: 1;
+        position: absolute;
+
+        a {
+            color: rgba(228, 135, 74, 1);
+        }
     }
 }

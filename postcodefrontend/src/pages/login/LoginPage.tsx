@@ -1,5 +1,5 @@
-import CenteringContainer from "../layouts/CenteringContainer"
-import LoginForm from "../components/login-form/LoginForm"
+import CenteringContainer from "../../layouts/CenteringContainer"
+import LoginForm from "../../components/forms/login-form/LoginForm"
 
 const LoginPage = () => {
     return (

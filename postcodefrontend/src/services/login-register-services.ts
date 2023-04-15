@@ -1,12 +1,5 @@
-import type Login from '../types/Login'
-import FormType from '../types/Form';
-import Register from '../types/Register';
+import { LoginRegisterData } from '../types/LoginRegisterData';
 import axios from 'axios';
-
-interface LoginRegisterData {
-    data: Login | Register,
-    formType: string // Won't accept string-literal types ie. FormType
-}
 
 export const validateUser = async ({ data, formType }: LoginRegisterData) => {
     try {
@@ -16,16 +9,14 @@ export const validateUser = async ({ data, formType }: LoginRegisterData) => {
             }
         });
 
-        // console.log(response.data)
-
-        // Store is session storage
-        // Or some otherway with an expiration date
         const token = await response.data.token;
         localStorage.setItem('token', token);
 
-        return true;
+        // extract the expiration time from the decoded token
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        const expirationTime = decodedToken.exp;
+        return expirationTime;
     } catch (error: any) {
-        // console.log(error);
         return false;
     }
 }

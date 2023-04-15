@@ -1,12 +1,13 @@
-import { useAppDispatch, useAppSelector } from '../../services/redux-services';
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { object, string } from 'yup'
-import { validateUser } from '../../services/login-register-services';
+import { useAppDispatch, useAppSelector } from '../../../services/redux-services';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { setJwtExpirationDate } from '../../../slices/auth-slice';
+import { object, string } from 'yup';
+import { validateUser } from '../../../services/login-register-services';
 import { useNavigate } from 'react-router-dom';
-import { setError } from '../../slices/form-slice';
-import FormType from '../../types/Form';
+import { setError } from '../../../slices/form-slice';
+import FormType from '../../../types/Form';
 import styles from './LoginForm.module.scss';
-import Login from '../../types/Login';
+import Login from '../../../types/Login';
 
 const Form = ({ formType }: FormType) => {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<Login>();
@@ -24,9 +25,15 @@ const Form = ({ formType }: FormType) => {
 
         try {
             const validatedLoginData = await loginSchema.validate(data);
-            const loggingSuccessful = await validateUser({ data: validatedLoginData, formType: formType })
-            if (loggingSuccessful) navigate('/admin');
-            else dispatch(setError("Login or password is incorrect"));
+            const validateAndReturnExpirationDate = await validateUser({ data: validatedLoginData, formType: formType })
+
+            if (validateAndReturnExpirationDate) {
+                navigate('/admin');
+                dispatch(setJwtExpirationDate(validateAndReturnExpirationDate));
+            }
+            else {
+                dispatch(setError("Login or password is incorrect"));
+            }
         } catch (error: any) {
             dispatch(setError(error.message.message));
         }
@@ -34,7 +41,8 @@ const Form = ({ formType }: FormType) => {
 
     return (
         <>
-            <h2>Login</h2>
+            <h2>Login to Oz Post</h2>
+            <p>Enter your details to log into your account.</p>
             {error && <p>{error}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
@@ -46,7 +54,7 @@ const Form = ({ formType }: FormType) => {
 
                 <input type="submit" value="submit" disabled={isSubmitting} />
 
-                <p>Don't have an account? <a href="/register">Register</a></p>
+                <p>Don't have an account? <a href="/register">Register for OzPost</a></p>
             </form>
         </>
     )
