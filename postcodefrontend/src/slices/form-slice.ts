@@ -4,7 +4,7 @@ const formSlice = createSlice({
     name: "form",
     initialState: {
         error: null as string | null,
-        sucess: null as string | null
+        sucess: null as string | null,
     },
     reducers: {
         setError(state, action) {

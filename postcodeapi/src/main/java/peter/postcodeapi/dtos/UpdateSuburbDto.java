@@ -9,6 +9,7 @@ public class UpdateSuburbDto {
 	private String name;
 
 	@Max(99999)
+	@Min(0)
 	private int population;
 	
 	@Min(1000)

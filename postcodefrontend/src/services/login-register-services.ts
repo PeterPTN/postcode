@@ -1,4 +1,4 @@
-import { LoginRegisterData } from '../types/LoginRegisterData';
+import LoginRegisterData from '../types/LoginRegisterProps';
 import axios from 'axios';
 
 export const validateUser = async ({ data, formType }: LoginRegisterData) => {

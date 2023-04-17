@@ -7,15 +7,20 @@ import React from 'react'
 import App from './App'
 import './index.css'
 
+import AdminPage from './pages/admin/AdminPage';
+import ErrorPage from './pages/error/ErrorPage';
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <AuthCheckedLoginPage /> },
+      { index: true, element: <AdminPage /> },
       { path: "/register", element: <AuthCheckedRegisterPage /> },
-      { path: "/admin", element: <ProtectedAdminPage /> }
-    ]
+      { path: "/admin", element: <ProtectedAdminPage /> },
+      { path: "*", element: <ErrorPage /> }
+    ],
+
   }
 ])
 

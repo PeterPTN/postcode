@@ -5,13 +5,12 @@ import { object, string } from 'yup'
 import { validateUser } from '../../../services/login-register-services';
 import { useNavigate } from 'react-router-dom';
 import { setError } from '../../../slices/form-slice';
-import Register from '../../../types/Register';
 import FormType from '../../../types/Form';
 import styles from './RegisterForm.module.scss';
-import Login from '../../../types/Login';
+import User from '../../../types/User';
 
 const Form = ({ formType }: FormType) => {
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<Login | Register>();
+    const { register, handleSubmit, formState: { isSubmitting } } = useForm<User>();
     const error = useAppSelector(state => state.form.error);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -24,13 +23,13 @@ const Form = ({ formType }: FormType) => {
         confirmPassword: string().required({ message: "Please re-type your password" }),
     });
 
-    const onSubmit: SubmitHandler<Login | Register> = async (data: any) => {
+    const onSubmit: SubmitHandler<User> = async (data: User) => {
         dispatch(setError(null));
 
         try {
             const validatedRegisterData = await registerSchema.validate(data);
             const validateAndReturnExpirationDate = await validateUser({ data: validatedRegisterData, formType: formType })
-            
+
             if (validateAndReturnExpirationDate) {
                 navigate('/admin');
                 dispatch(setJwtExpirationDate(validateAndReturnExpirationDate));

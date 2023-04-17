@@ -1,6 +1,5 @@
-export interface Suburb {
-    id: number;
+export default interface Suburb {
     name: string;
-    population: string;
+    population: number;
     postcode: number;
 }

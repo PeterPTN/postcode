@@ -1,0 +1,43 @@
+@import "../../../global-styles/mixins/Inputs.scss";
+
+.updateSuburbForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: .5rem;
+}
+
+.textInputContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 1rem;
+
+    input {
+        @include textInput;
+        min-width: auto;
+    }
+
+    input:focus {
+        @include textInputFocus
+    }
+}
+
+.updateSuburbActions {
+    margin: 2rem auto 0;
+
+    button, input {
+        border: none;
+        border-radius: .5rem;
+        padding: .25rem .5rem;
+        margin: 0 .25rem;
+    }
+
+    input {
+        background-color: rgb(228, 117, 26);
+        color: white;
+
+        &:hover {
+            background-color: rgb(207, 107, 24);
+        }
+    }
+}

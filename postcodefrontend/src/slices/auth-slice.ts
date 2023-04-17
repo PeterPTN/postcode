@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit/";
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        jwtExpirationDate: new Date().getTime(),
+        jwtExpirationDate: null,
     },
     reducers: {
         setJwtExpirationDate(state, action) {

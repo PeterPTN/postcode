@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { setError } from '../../../slices/form-slice';
 import FormType from '../../../types/Form';
 import styles from './LoginForm.module.scss';
-import Login from '../../../types/Login';
+import User from '../../../types/User';
 
 const Form = ({ formType }: FormType) => {
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<Login>();
+    const { register, handleSubmit, formState: { isSubmitting } } = useForm<User>();
     const error = useAppSelector(state => state.form.error);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Form = ({ formType }: FormType) => {
         password: string().required({ message: "Password is required" }),
     });
 
-    const onSubmit: SubmitHandler<Login> = async (data: any) => {
+    const onSubmit: SubmitHandler<User> = async (data: User) => {
         dispatch(setError(null));
 
         try {

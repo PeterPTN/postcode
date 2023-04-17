@@ -5,9 +5,9 @@ import styles from './ErrorPage.module.scss';
 const ErrorPage = () => {
     return (
         <CenteringContainer>
-            <h1 className={styles.sorry}>Sorry! ¯\_(ツ)_/¯</h1>
+            <h2 className={styles.sorry}>Sorry!</h2>
             <p>We couldn't find that route!</p>
-            <Link to="/">Return home</Link>
+            <Link className={styles.back} to="/">Return home</Link>
         </CenteringContainer>
     )
 }
