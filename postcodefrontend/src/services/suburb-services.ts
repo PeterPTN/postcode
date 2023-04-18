@@ -1,4 +1,3 @@
-import UpdateSuburb from '../types/UpdateSuburb'
 import Suburb from '../types/Suburb';
 import axios from 'axios';
 
@@ -6,7 +5,7 @@ export const getAllSuburbs = async () => {
     try {
         const response = await axios.get("http://localhost:8080/suburb", {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
             }
         });
 
@@ -32,7 +31,7 @@ export const createSuburb = async (suburbData: Suburb) => {
     try {
         await axios.post("http://localhost:8080/suburb", suburbData, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json',
             }
         });
@@ -59,7 +58,7 @@ export const deleteSuburb = async (id: number) => {
     try {
         await axios.delete(`http://localhost:8080/suburb/${id}`, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
             }
         });
 
@@ -80,18 +79,28 @@ export const deleteSuburb = async (id: number) => {
     }
 }
 
-export const updateSuburb = async ({ id, newSuburbData }: { id: number, newSuburbData: UpdateSuburb }) => {
-    const response = await axios.patch(`http://localhost:8080/suburb/${id}`, newSuburbData, {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json',
+export const updateSuburb = async ({ id, newSuburbData }: { id: number, newSuburbData: Suburb }) => {
+    try {
+        await axios.patch(`http://localhost:8080/suburb/${id}`, newSuburbData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        return true;
+    } catch (error: any) {
+        if (error.response.data.errors) {
+            const fields = Object.keys(error.response.data.errors);
+            const errorMessages: string[] = [];
+
+            fields.forEach((field) => {
+                const capitalisedField = field.charAt(0).toUpperCase() + field.slice(1);
+                errorMessages.push(`${capitalisedField} ${error.response.data.errors[field][0]}`);
+            })
+
+            throw new Error(`Failed to update this suburb: ${errorMessages.join("\n")}`)
         }
-    });
-
-    // Do better error handling
-    if (response.status !== 200) {
-        throw new Error("Failed to update this suburb");
+        throw new Error("Failed to update this suburb")
     }
-
-    return true;
 }

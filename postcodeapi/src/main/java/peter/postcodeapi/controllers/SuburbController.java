@@ -66,7 +66,7 @@ public class SuburbController {
 	@PatchMapping("/{id}")
 	public ResponseEntity<Suburb> updateSuburbById(@PathVariable Long id, @Valid @RequestBody UpdateSuburbDto data) {
 		if (postcodeUtils.findOutDoesPostcodeExist(data.getPostcode()) == false) {
-			throw new NotFoundException(data.getPostcode() + ": is an invalid postcode");
+			postcodeServices.createPostcode(data.getPostcode());
 		}
 		Suburb suburb = findSuburbOrThrow(id);
 		Suburb updatedSuburb = this.suburbServices.updateSuburb(suburb, data);

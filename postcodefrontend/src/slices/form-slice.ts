@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit/";
 const formSlice = createSlice({
     name: "form",
     initialState: {
-        error: null as string | null,
+        error: null as string[] | null,
         sucess: null as string | null,
     },
     reducers: {

@@ -10,7 +10,7 @@ export const validateUser = async ({ data, formType }: LoginRegisterData) => {
         });
 
         const token = await response.data.token;
-        localStorage.setItem('token', token);
+        localStorage.setItem('jwt', token);
 
         // extract the expiration time from the decoded token
         const decodedToken = JSON.parse(atob(token.split('.')[1]));

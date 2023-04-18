@@ -1,44 +1,42 @@
 import { setSuburbUpdateForm, setSuburbs } from '../../../slices/suburb-slice';
-import { number, object, string, } from 'yup';
 import { setError, setSuccess } from '../../../slices/form-slice';
 import { useAppDispatch } from '../../../services/redux-services';
 import { updateSuburb } from '../../../services/suburb-services';
 import { useMutation } from 'react-query';
 import { queryClient } from '../../../App';
-import { useForm } from 'react-hook-form'
-import UpdateSuburb from '../../../types/UpdateSuburb';
+import { useForm } from 'react-hook-form';
+import SUBURB_SCHEMA from '../../../constants/SuburbSchema';
 import SuburbEntity from '../../../types/SuburbEntity';
 import styles from './UpdateSuburbForm.module.scss';
 
 const UpdateSuburbForm = (props: SuburbEntity) => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm({ defaultValues: props });
     const mutation = useMutation(updateSuburb);
     const dispatch = useAppDispatch();
 
-    useForm({ defaultValues: { props } })
+    const onSubmit = async (data: SuburbEntity) => {
+        dispatch(setError(null));
+        dispatch(setSuccess(null));
 
-    const updateSuburbSchema = object({
-        name: string(),
-        population: number(),
-        postcode: number()
-    })
+        const validatedUpdateSuburbData = await SUBURB_SCHEMA.validate(data, { abortEarly: false })
+            .catch((error) => {
+                // Use .inner to reveal aggregate errors if validate(abortEarly: false)
+                dispatch(setError(error.inner));
+            });
 
-    const onSubmit = async (data: UpdateSuburb) => {
-        const validatedUpdateSuburbData = await updateSuburbSchema.validate(data);
-        mutation.mutate({ id: props.id, newSuburbData: validatedUpdateSuburbData }, {
-            onSuccess: async () => {
-                queryClient.invalidateQueries()
-                const newSuburbs = await queryClient.fetchQuery<SuburbEntity[]>("getAllSuburbs");
-                dispatch(setSuburbs(newSuburbs));
-                dispatch(setSuccess("Suburb successfully created"));
-                setTimeout(() => dispatch(setSuccess(null)), 5000);
-            },
-            onError: (error: any) => {
-                dispatch(setError(error.message))
-                setTimeout(() => dispatch(setError(null)), 5000);
-            }
-        });
-
+        if (validatedUpdateSuburbData) {
+            mutation.mutate({ id: props.id, newSuburbData: validatedUpdateSuburbData }, {
+                onSuccess: async () => {
+                    queryClient.invalidateQueries()
+                    const newSuburbs = await queryClient.fetchQuery<SuburbEntity[]>("getAllSuburbs");
+                    dispatch(setSuburbs(newSuburbs));
+                    dispatch(setSuccess("Suburb successfully created"));
+                },
+                onError: (error: any) => {
+                    dispatch(setError(error.message))
+                }
+            });
+        }
     }
 
     const handleCancelClick = () => {

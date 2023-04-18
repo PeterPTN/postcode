@@ -16,6 +16,7 @@ const Header = () => {
 
   const handleClick = () => {
     if (authenticationSignifier === "Sign-out") {
+      localStorage.removeItem("jwt");
       dispatch(setJwtExpirationDate(null));
     }
     navigate("/");

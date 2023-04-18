@@ -1,8 +1,8 @@
 import styles from './OutcomeMessages.module.scss';
 
-const ErrorMessage = ({ message }: { message: string }) => {
+const ErrorMessage = ({ errorObj }: { errorObj: any }) => {
     return (
-        <div className={styles.error}>{message}</div>
+        <div className={styles.error}>{errorObj.message}</div>
     )
 }
 

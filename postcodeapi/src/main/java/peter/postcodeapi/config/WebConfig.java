@@ -28,7 +28,7 @@ public class WebConfig {
 		config.setAllowedHeaders(
 				Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT));
 		config.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.PUT.name(),
-				HttpMethod.DELETE.name()));
+				HttpMethod.DELETE.name(), HttpMethod.PATCH.name()));
 		config.setMaxAge(MAX_AGE);
 		source.registerCorsConfiguration("/**", config);
 		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<CorsFilter>(new CorsFilter(source));
