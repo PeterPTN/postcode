@@ -9,7 +9,7 @@ import FormType from '../../../types/Form';
 import styles from './RegisterForm.module.scss';
 import User from '../../../types/User';
 
-const Form = ({ formType }: FormType) => {
+const RegisterForm = ({ formType }: FormType) => {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<User>();
     const error = useAppSelector(state => state.form.error);
     const dispatch = useAppDispatch();
@@ -70,4 +70,4 @@ const Form = ({ formType }: FormType) => {
     )
 }
 
-export default Form
+export default RegisterForm

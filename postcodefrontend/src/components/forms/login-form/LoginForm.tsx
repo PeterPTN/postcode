@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from '../../../services/redux-services';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { setJwtExpirationDate } from '../../../slices/auth-slice';
+import { useAppDispatch } from '../../../services/redux-services';
 import { object, string } from 'yup';
 import { validateUser } from '../../../services/login-register-services';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +9,8 @@ import FormType from '../../../types/Form';
 import styles from './LoginForm.module.scss';
 import User from '../../../types/User';
 
-const Form = ({ formType }: FormType) => {
+const LoginForm = ({ formType }: FormType) => {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<User>();
-    const error = useAppSelector(state => state.form.error);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -32,7 +31,7 @@ const Form = ({ formType }: FormType) => {
                 dispatch(setJwtExpirationDate(validateAndReturnExpirationDate));
             }
             else {
-                dispatch(setError("Login or password is incorrect"));
+                dispatch(setError(["Login or password is incorrect"]));
             }
         } catch (error: any) {
             dispatch(setError(error.message.message));
@@ -41,11 +40,7 @@ const Form = ({ formType }: FormType) => {
 
     return (
         <>
-            <h2>Login to Oz Post</h2>
-            <p>Enter your details to log into your account.</p>
-            {error && <p>{error}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-
                 <label htmlFor="login" >Login:</label>
                 <input id="login" type="text" {...register("login")} />
 
@@ -60,4 +55,4 @@ const Form = ({ formType }: FormType) => {
     )
 }
 
-export default Form
+export default LoginForm

@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react'
 import { getAllSuburbs } from '../../services/suburb-services'
 import { useQuery } from 'react-query'
 import SuburbInformationContainer from '../../components/suburb-components/suburb-information/SuburbInformationContainer'
-import CenteringContainer from '../../layouts/CenteringContainer'
+import CenteringContainer from '../../layouts/centering-container/CenteringContainer'
 import CreateSuburbForm from '../../components/forms/create-suburb-form/CreateSuburbForm'
 import UpdateSuburbForm from '../../components/forms/update-suburb-form/UpdateSuburbForm'
-import SuccessMessage from '../../components/forms/outcome-messages/SuccessMessage'
+import SuccessMessage from '../../components/outcome-messages/success-message/SuccessMessage'
 import SuburbEntity from '../../types/SuburbEntity'
-import ErrorMessage from '../../components/forms/outcome-messages/ErrorMessage'
-import SuburbCard from '../../components/suburb-components/SuburbCard'
+import ErrorMessage from '../../components/outcome-messages/error-message/ErrorMessage'
+import SuburbCard from '../../layouts/suburb-card/SuburbCard'
 import styles from './AdminPage.module.scss'
 
 const AdminPage = () => {
@@ -32,33 +32,6 @@ const AdminPage = () => {
       dispatch(resetSuburbUpdateForm(true));
     }
   }
-
-  const mockData: SuburbEntity[] = [
-    {
-      id: 1,
-      name: "Brisbane",
-      population: 2000000,
-      postcode: 4000
-    },
-    {
-      id: 2,
-      name: "Brisbane",
-      population: 2000000,
-      postcode: 4000
-    },
-    {
-      id: 3,
-      name: "Brisbane",
-      population: 2000000,
-      postcode: 4000
-    },
-    {
-      id: 4,
-      name: "Brisbane",
-      population: 2000000,
-      postcode: 4000
-    },
-  ]
 
   useEffect(() => {
     if (data) {
@@ -86,7 +59,7 @@ const AdminPage = () => {
         {errorMessages && errorMessages.map((errorObj, index) => {
           return <ErrorMessage key={index} errorObj={errorObj} />
         })}
-        {successMessage && <SuccessMessage message={successMessage} />}
+        {successMessage && <SuccessMessage successObj={successMessage} />}
 
         {viewCards && suburbViewArray.length > 0 && suburbs &&
           <>

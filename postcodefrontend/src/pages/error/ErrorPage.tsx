@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import CenteringContainer from '../../layouts/CenteringContainer'
+import CenteringContainer from '../../layouts/centering-container/CenteringContainer'
 import styles from './ErrorPage.module.scss';
 
 const ErrorPage = () => {
