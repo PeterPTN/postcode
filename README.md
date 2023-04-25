@@ -1,5 +1,9 @@
 # Postcode API
 
+## App Images
+
+![Login Page](displayimages/OzPost.png)
+
 ## Requirements / Purpose
 This was originally a backend project but I've decided to include a frontend because I wanted to see how all its features functioned end-to-end.
 
@@ -48,5 +52,5 @@ On the frontend users can:
 ## Future Goals
 - Testing suites for both frontend and backend
 - Tidy up remaining logic and componentry for the frontend
-- Play around with additional dependencies on the frontend (React-Motion, MockServiceWorker(?), Cypress)
+- Play around with additional dependencies on the frontend (React-Motion, Cypress)
 - CSRF implementation(?)
