@@ -32,7 +32,7 @@ const SuburbActions = ({ id }: { id: number }) => {
     }
 
     return (
-        <div className={styles.suburbActions}>
+        <div className={`${styles.suburbActions} suburbActions`}>
             <button onClick={handleUpdateClick}>Update</button>
             <button onClick={handleDeleteClick}>Delete</button>
         </div>

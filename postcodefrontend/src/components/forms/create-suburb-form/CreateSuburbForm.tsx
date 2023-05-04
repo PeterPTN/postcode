@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { setError, setSuccess } from '../../../slices/form-slice';
+import { getErrorMessages } from '../../../utils/error-utils';
 import { useAppDispatch } from '../../../services/redux-services';
 import { createSuburb } from '../../../services/suburb-services';
 import { useMutation } from 'react-query';
@@ -21,8 +22,7 @@ const CreateSuburbForm = () => {
 
         const validatedSuburbData = await SUBURB_SCHEMA.validate(data, { abortEarly: false })
             .catch((error) => {
-                // Use .inner to reveal aggregate errors if validate(abortEarly: false)
-                dispatch(setError(error.inner));
+                dispatch(setError(getErrorMessages(error)));
             });
 
         if (validatedSuburbData) {
@@ -51,7 +51,7 @@ const CreateSuburbForm = () => {
                 <label htmlFor="">Population:</label>
                 <input type="text" {...register("population")} />
 
-                <label htmlFor="">Postcode</label>
+                <label htmlFor="">Postcode:</label>
                 <input type="text" {...register("postcode")} />
 
                 <input type="submit" value="Submit" disabled={isSubmitting} />

@@ -63,8 +63,8 @@ const AdminPage = () => {
 
         {viewCards && suburbViewArray.length > 0 && suburbs &&
           <>
-            <h2>Suburb Information</h2>
-            <p>All available suburbs in Australia.</p>
+            <h2 className={styles.title}>Suburb Information</h2>
+            <p className={styles.tag}>All available suburbs in Australia.</p>
             <div className={styles.suburbCardContainer}>
               {suburbs.map((suburb: SuburbEntity, index) => {
                 if (suburbViewArray[index].updateView) {
@@ -87,8 +87,8 @@ const AdminPage = () => {
 
         {!viewCards &&
           <>
-            <h2>Create Suburb</h2>
-            <p>Fill out the required fields to create a new suburb.</p>
+            <h2 className={styles.title}>Create Suburb</h2>
+            <p className={styles.tag}>Fill out the required fields to create a new suburb.</p>
             <CreateSuburbForm />
           </>
         }

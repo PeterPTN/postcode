@@ -1,4 +1,4 @@
-import styles from './OutcomeMessages.module.scss';
+import styles from '../OutcomeMessages.module.scss';
 
 const ErrorMessage = ({ errorObj }: { errorObj: any }) => {
     return (

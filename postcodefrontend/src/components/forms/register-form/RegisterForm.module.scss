@@ -40,4 +40,12 @@
         display: flex;
         flex-direction: column;
     }
+
+    a {
+        text-decoration: underline;
+    }
+
+    p {
+        text-align: center;
+    }
 }

@@ -17,6 +17,6 @@ export const validateUser = async ({ data, formType }: LoginRegisterData) => {
         const expirationTime = decodedToken.exp;
         return expirationTime;
     } catch (error: any) {
-        return false;
+        throw new Error(error.response.data.message);
     }
 }

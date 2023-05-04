@@ -1,5 +1,6 @@
 import { setSuburbUpdateForm, setSuburbs } from '../../../slices/suburb-slice';
 import { setError, setSuccess } from '../../../slices/form-slice';
+import { getErrorMessages } from '../../../utils/error-utils';
 import { useAppDispatch } from '../../../services/redux-services';
 import { updateSuburb } from '../../../services/suburb-services';
 import { useMutation } from 'react-query';
@@ -20,8 +21,7 @@ const UpdateSuburbForm = (props: SuburbEntity) => {
 
         const validatedUpdateSuburbData = await SUBURB_SCHEMA.validate(data, { abortEarly: false })
             .catch((error) => {
-                // Use .inner to reveal aggregate errors if validate(abortEarly: false)
-                dispatch(setError(error.inner));
+                dispatch(setError(getErrorMessages(error)));
             });
 
         if (validatedUpdateSuburbData) {

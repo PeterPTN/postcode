@@ -11,10 +11,8 @@
         font-size: 4rem;
         line-height: 1;
         letter-spacing: -7.5px;
-
-        a {
-            color: $pale-orange;
-        }
+        color: $pale-orange;
+        cursor: pointer;
     }
 
     nav {

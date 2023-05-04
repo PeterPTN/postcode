@@ -1,8 +1,10 @@
-import { useAppDispatch, useAppSelector } from '../../../services/redux-services';
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { setJwtExpirationDate } from '../../../slices/auth-slice';
+import { getErrorMessages } from '../../../utils/error-utils';
+import { useAppDispatch } from '../../../services/redux-services';
 import { object, string } from 'yup'
 import { validateUser } from '../../../services/login-register-services';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { setError } from '../../../slices/form-slice';
 import FormType from '../../../types/Form';
@@ -11,42 +13,41 @@ import User from '../../../types/User';
 
 const RegisterForm = ({ formType }: FormType) => {
     const { register, handleSubmit, formState: { isSubmitting } } = useForm<User>();
-    const error = useAppSelector(state => state.form.error);
+    const mutation = useMutation(validateUser);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const registerSchema = object({
-        firstName: string().required({ message: "First name is required" }),
-        lastName: string().required({ message: "Last name is required" }),
-        login: string().required({ message: "Login is required" }),
-        password: string().required({ message: "Password is required" }),
-        confirmPassword: string().required({ message: "Please re-type your password" }),
+        firstName: string().required("First name is required"),
+        lastName: string().required("Last name is required"),
+        login: string().required("Login is required"),
+        password: string().required("Password is required"),
+        confirmPassword: string().required("Please re-type your password"),
     });
 
     const onSubmit: SubmitHandler<User> = async (data: User) => {
         dispatch(setError(null));
 
-        try {
-            const validatedRegisterData = await registerSchema.validate(data);
-            const validateAndReturnExpirationDate = await validateUser({ data: validatedRegisterData, formType: formType })
+        const validatedRegisterData = await registerSchema.validate(data, { abortEarly: false })
+            .catch((error) => {
+                dispatch(setError(getErrorMessages(error)));
+            });
 
-            if (validateAndReturnExpirationDate) {
-                navigate('/admin');
-                dispatch(setJwtExpirationDate(validateAndReturnExpirationDate));
-            }
-            else {
-                dispatch(setError("Something went wrong"));
-            }
-        } catch (error: any) {
-            dispatch(setError(error.message.message));
+        if (validatedRegisterData) {
+            mutation.mutate({ data: validatedRegisterData, formType: formType }, {
+                onSuccess: (expirationTime: string) => {
+                    dispatch(setJwtExpirationDate(expirationTime));
+                    navigate('/admin');
+                },
+                onError: (error: any) => {
+                    dispatch(setError([error.message]));
+                }
+            })
         }
     }
 
     return (
         <>
-            <h2>Register</h2>
-            <p>Please enter your details in the required fields.</p>
-            {error && <p>{error}</p>}
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <label htmlFor="firstName">First Name:</label>
                 <input id="firstName" type="text" {...register("firstName")} />
@@ -63,8 +64,8 @@ const RegisterForm = ({ formType }: FormType) => {
                 <label htmlFor="confirmPassword" className={formType === "register" ? styles.register : ""} >Confirm Password:</label>
                 <input id="confirmPassword" type="password" {...register("confirmPassword")} />
 
-                <input type="submit" value="submit" disabled={isSubmitting} />
-                <p>Already have an account? <a href="/login">Login</a></p>
+                <input id="submit" type="submit" value="submit" disabled={isSubmitting} />
+                <p>Already have an account? <a href="/">Login</a></p>
             </form>
         </>
     )

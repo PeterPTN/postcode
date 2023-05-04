@@ -14,22 +14,24 @@ public class Suburb {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@NotBlank
 	@Column(name = "name")
 	private String name;
-	
+
 	@Max(99999)
+	@Min(0)
 	@Column(name = "population")
 	private int population;
-	
+
 	@Min(1000)
 	@Max(9999)
 	@Column(name = "postcode")
 	private int postcode;
-	
-	public Suburb() {}
-	
+
+	public Suburb() {
+	}
+
 	public Suburb(int id, String name, int population, int postcode) {
 		super();
 		this.id = id;
@@ -37,35 +39,35 @@ public class Suburb {
 		this.population = population;
 		this.postcode = postcode;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public int getPopulation() {
 		return population;
 	}
-	
+
 	public void setPopulation(int population) {
 		this.population = population;
 	}
-	
+
 	public int getPostcode() {
 		return postcode;
 	}
-	
+
 	public void setPostcode(int postcode) {
 		this.postcode = postcode;
 	}

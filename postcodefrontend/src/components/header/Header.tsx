@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../services/redux-services'
 import { setJwtExpirationDate } from '../../slices/auth-slice'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { setError } from '../../slices/form-slice'
 import styles from './Header.module.scss'
 
 const Header = () => {
@@ -14,7 +15,8 @@ const Header = () => {
       ? "Sign-in"
       : "Sign-out";
 
-  const handleClick = () => {
+  const handleAuthClick = () => {
+    dispatch(setError(null));
     if (authenticationSignifier === "Sign-out") {
       localStorage.removeItem("jwt");
       dispatch(setJwtExpirationDate(null));
@@ -22,13 +24,18 @@ const Header = () => {
     navigate("/");
   }
 
+  const handleTitleClick = () => {
+    dispatch(setError(null))
+    navigate("/");
+  }
+
   return (
     <header className={styles.header}>
-      <h1><Link to="/">Oz Post</Link></h1>
+      <h1 onClick={handleTitleClick}>Oz Post</h1>
 
       <nav>
         <ul>
-          <li onClick={handleClick}>{authenticationSignifier}</li>
+          <li onClick={handleAuthClick}>{authenticationSignifier}</li>
         </ul>
       </nav>
     </header>

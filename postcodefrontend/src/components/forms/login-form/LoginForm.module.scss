@@ -1,7 +1,7 @@
 @import '../../../global-styles/mixins/Inputs.scss';
 @import '../../../global-styles//mixins//Forms.scss';
 
-.form {
+.LoginForm {
     @include form;
 
     input {
@@ -32,5 +32,9 @@
 
     a:hover {
         text-decoration: underline;
+    }
+
+    p {
+        text-align: center;
     }
 }
